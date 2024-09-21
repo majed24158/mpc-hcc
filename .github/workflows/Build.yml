@@ -7,19 +7,12 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    
-    # تثبيت CMake على الويندوز
-    - name: Install CMake
-      run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --no-progress
 
-    - name: Configure
-      run: cmake .
-      
-    - name: Build
-      run: cmake --build .
-      
+    - name: Build with MSBuild
+      run: msbuild /p:Configuration=Release your_project.sln
+
     - name: Upload exe
       uses: actions/upload-artifact@v3
       with:
         name: mpc-hcc
-        path: ./build/your_executable.exe
+        path: ./build/Release/your_executable.exe
