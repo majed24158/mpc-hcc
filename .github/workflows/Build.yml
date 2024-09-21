@@ -8,18 +8,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # تثبيت أدوات Visual Studio Build Tools مع MSBuild
-    - name: Install MSBuild
-      run: choco install visualstudio2019-buildtools -y
-
-    - name: Add MSBuild to Path
-      shell: powershell
-      run: |
-        $msbuildPath = "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin"
-        echo "##vso[task.prependpath]$msbuildPath"
-
+    # استخدام MSBuild المدمج في بيئة windows-latest
     - name: Build with MSBuild
-      run: msbuild /p:Configuration=Release your_project.sln
+      run: |
+        msbuild /p:Configuration=Release your_project.sln
 
     - name: Upload exe
       uses: actions/upload-artifact@v3
