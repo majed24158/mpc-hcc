@@ -1,0 +1,35 @@
+name: Build MPC-HC
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # خطوة: استنساخ المشروع مع submodules
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true  # تنزيل جميع submodules
+
+    # خطوة: إعداد Visual Studio
+    - name: Set up Visual Studio
+      uses: microsoft/setup-msbuild@v1.1.3
+
+    # خطوة: بناء المشروع باستخدام msbuild
+    - name: Build MPC-HC
+      run: msbuild /p:Configuration=Release mpc-hc.sln
+
+    # خطوة: أرشفة الملفات التنفيذية
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: mpc-hc-build
+        path: '**/bin/Release/*'
