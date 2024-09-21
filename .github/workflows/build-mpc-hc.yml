@@ -2,30 +2,25 @@ name: Build MPC-HC
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    # تحديث إلى الإصدار الثالث من actions/checkout
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # تحديث إلى الإصدار الأحدث من microsoft/setup-msbuild
-    - name: Set up Visual Studio
-      uses: microsoft/setup-msbuild@v1.1.3  # الإصدار الأحدث المتاح
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1.1.3
 
-    # بناء المشروع باستخدام msbuild
-    - name: Build MPC-HC
-      run: msbuild /p:Configuration=Release mpc-hc.sln
+    - name: Build the project using MSBuild
+      run: |
+        msbuild /p:Configuration=Release mpc-hc.sln
 
-    # أرشفة الملفات التنفيذية الناتجة
     - name: Archive build artifacts
       uses: actions/upload-artifact@v3
       with:
