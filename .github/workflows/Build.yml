@@ -7,12 +7,17 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up CMake
-      uses: jwlawson/actions-setup-cmake@v1.10.0
+    
+    # تثبيت CMake على الويندوز
+    - name: Install CMake
+      run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --no-progress
+
     - name: Configure
       run: cmake .
+      
     - name: Build
       run: cmake --build .
+      
     - name: Upload exe
       uses: actions/upload-artifact@v3
       with:
