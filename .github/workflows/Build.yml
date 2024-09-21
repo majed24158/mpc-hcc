@@ -8,13 +8,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up CMake
-      uses: actions/setup-cmake@v1
+      uses: jwlawson/actions-setup-cmake@v1.10.0
     - name: Configure
       run: cmake .
     - name: Build
       run: cmake --build .
     - name: Upload exe
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: mpc-hcc
         path: ./build/your_executable.exe
